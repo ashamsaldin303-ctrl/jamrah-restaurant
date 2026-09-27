@@ -1,0 +1,11 @@
+# deps & caches
+node_modules/
+**/node_modules/
+.cache/
+.arena/
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+# regenerable QA screenshots
+qa/shots/

@@ -1,0 +1,25 @@
+const { chromium, devices } = require("playwright");
+const path = require("path");
+const URL = "file://" + path.resolve("dist/index.html");
+(async () => {
+  const browser = await chromium.launch();
+  const ctx = await browser.newContext({ ...devices["iPhone 13"], hasTouch: true });
+  const page = await ctx.newPage();
+  await page.goto(URL);
+  await page.waitForTimeout(4200);
+  await page.screenshot({ path: "qa/shots/v5-m-hero.png" });
+  await page.evaluate(() => window.scrollTo({ top: 620 }));
+  await page.waitForTimeout(1200);
+  await page.screenshot({ path: "qa/shots/v5-m-hero2.png" });
+  await ctx.close();
+  const ctx2 = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const p2 = await ctx2.newPage();
+  await p2.goto(URL + "#/about");
+  await p2.waitForTimeout(3400);
+  await p2.evaluate(() => window.scrollTo({ top: 2400 }));
+  await p2.waitForTimeout(1200);
+  await p2.screenshot({ path: "qa/shots/v5-d-values.png" });
+  await ctx2.close();
+  await browser.close();
+  console.log("v5 shots done");
+})();
