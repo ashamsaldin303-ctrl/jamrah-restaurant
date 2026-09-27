@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PageHero from "../components/PageHero";
 import { Reveal } from "../components/Motion";
@@ -11,6 +11,20 @@ export default function GalleryPage() {
   useMeta("الأجواء | جَمرة", "لقطات من أمسيتنا كل ليلة: الجمر، التنور، الفوانيس، والضيافة.");
   const [cat, setCat] = useState("الكل");
   const [open, setOpen] = useState(null);
+  useEffect(() => {
+    const onKey = e => {
+      if (open === null) {
+        const t = e.target;
+        if ((e.key === "Enter" || e.key === " ") && t.classList?.contains("g-item")) { e.preventDefault(); setOpen(Number(t.dataset.idx)); }
+        return;
+      }
+      if (e.key === "Escape") setOpen(null);
+      if (e.key === "ArrowLeft") setOpen(o => (o + 1) % GALLERY.length);
+      if (e.key === "ArrowRight") setOpen(o => (o - 1 + GALLERY.length) % GALLERY.length);
+    };
+    addEventListener("keydown", onKey);
+    return () => removeEventListener("keydown", onKey);
+  }, [open]);
   const items = GALLERY.map((g, i) => ({ ...g, i })).filter(g => cat === "الكل" || g.cat === cat);
   const cur = open !== null ? GALLERY[open] : null;
   const nav = d => setOpen(o => o === null ? o : (o + d + GALLERY.length) % GALLERY.length);
@@ -28,7 +42,7 @@ export default function GalleryPage() {
           <AnimatePresence mode="popLayout">
             {items.map(g => (
               <motion.figure layout key={g.i}
-                className={"g-item " + g.span}
+                className={"g-item " + g.span} data-idx={g.i}
                 initial={{ opacity: 0, scale: .92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: .94 }}
                 transition={{ duration: .55, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setOpen(g.i)} tabIndex={0} role="button"

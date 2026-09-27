@@ -112,7 +112,7 @@ export function MenuFull() {
         <button className={"f-chip" + (veg ? " on" : "")} onClick={() => setVeg(v => !v)}><svg><use href="#i-leaf" /></svg> نباتي</button>
         <button className={"f-chip" + (hot ? " on" : "")} onClick={() => setHot(v => !v)}><svg><use href="#i-flame" /></svg> حرّيف</button>
       </div>
-      <span className="menu-count">{total} طبقًا</span>
+      <span className="menu-count" aria-live="polite">{total} طبقًا</span>
     </div>
     {sections.length === 0 && <p className="menu-empty">لا يوجد ما يطابق بحثك — جرّب كلمةً أخرى، أو اسألنا فكلُّ شيءٍ ممكنٌ على الجمر 🔥</p>}
     {sections.map(s => (
