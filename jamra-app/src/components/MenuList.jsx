@@ -52,18 +52,20 @@ export function MenuTabs() {
   const [tab, setTab] = useState("p-grills");
   const ind = useRef(null);
   const box = useRef(null);
+  const [tick, setTick] = useState(0);
   useLayoutEffect(() => {
     const el = box.current?.querySelector(".menu-tab.active");
     if (!el || !ind.current) return;
     const pr = el.parentElement.getBoundingClientRect(), er = el.getBoundingClientRect();
     ind.current.style.width = er.width + "px";
     ind.current.style.transform = `translateX(${er.left - pr.left - 1}px)`;
-  }, [tab]);
+  }, [tab, tick]);
   useEffect(() => {
-    const f = () => { const e = new Event("resize"); dispatchEvent(e); };
-    document.fonts?.ready?.then(f);
+    const f = () => setTick(t => t + 1);
     addEventListener("resize", f);
-    return () => removeEventListener("resize", f);
+    let on = true;
+    document.fonts?.ready?.then(() => { if (on) setTick(t => t + 1); });
+    return () => { on = false; removeEventListener("resize", f); };
   }, []);
   const { pv, preview } = usePreview();
   const withImg = id => MENU[id].items.map(it => ({ ...it, __img: IMG[PANEL_IMG[id]] }));

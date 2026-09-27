@@ -6,6 +6,7 @@ import ImgMarquee from "../components/ImgMarquee";
 import Medal from "../components/Medal";
 import Marquee from "../components/Marquee";
 import DishRail from "../components/DishRail";
+import { MenuTabs } from "../components/MenuList";
 import Testimonials from "../components/Testimonials";
 import LiveBand from "../components/LiveBand";
 import RitualStack from "../components/RitualStack";
@@ -143,6 +144,19 @@ export default function Home() {
         <SectionHead icon="i-star" label="توقيعاتُ الجمر" lines={["أطباقٌ تحكي", "سيرةَ النار"]} desc="اسحبِ العربَةَ يمينًا وشمالًا — كلُّ بطاقةٍ جمرةٌ قائمةٌ بذاتها." />
       </div>
       <DishRail />
+    </section>
+
+    <section className="section menu-sec" id="home-menu">
+      <div className="menu-bgtext" aria-hidden="true">القائمة</div>
+      <div className="container">
+        <SectionHead center icon="i-pot" label="من قلبِ المطبخ" lines={["كلُّ طبقٍ…", "حكايةٌ على جمر"]}
+          desc="تصفّحْ أقسامَ القائمة الخمسةَ هنا، أو افتح القائمة الكاملة لتبحثَ وتفلتر." />
+        <MenuTabs />
+        <Reveal className="menu-foot">
+          <p><svg><use href="#i-leaf" /></svg> منتجاتٌ موسميّةٌ من مزارعَ محليّة — تتبدّلُ القائمةُ مع الموسم</p>
+          <Link to="/menu" className="btn btn-ghost btn-sm" data-magnetic><span>القائمة الكاملة والبحث</span><svg className="btn-arrow"><use href="#i-arrow-left" /></svg></Link>
+        </Reveal>
+      </div>
     </section>
 
     <ImgMarquee />

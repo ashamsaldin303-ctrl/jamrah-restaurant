@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 export const EASE = [0.16, 1, 0.3, 1];
@@ -37,7 +37,16 @@ export function MaskLines({ lines, className = "", delay = 0 }) {
 
 export function Count({ to, decimals = 0, suffix = "", className = "" }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(en => {
+      if (en[0].isIntersecting) { setInView(true); io.disconnect(); }
+    }, { threshold: .3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const [v, setV] = useState(0);
   useEffect(() => {
     if (!inView) return;

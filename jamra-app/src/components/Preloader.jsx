@@ -15,16 +15,21 @@ export default function Preloader() {
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
+    const hard = setTimeout(() => {
+      setPhase("leaving");
+      document.body.classList.add("ready");
+      setTimeout(() => { setPhase("done"); document.body.classList.remove("no-scroll"); }, 1250);
+    }, 3050);
     const done = setTimeout(() => {
       if (bar.current) bar.current.style.width = "100%";
       if (num.current) num.current.textContent = "100";
       setTimeout(() => {
         setPhase("leaving");
         document.body.classList.add("ready");
-        setTimeout(() => { setPhase("done"); document.body.classList.remove("no-scroll"); }, 1550);
+        setTimeout(() => { setPhase("done"); document.body.classList.remove("no-scroll"); }, 1250);
       }, 280);
     }, 2100);
-    return () => { cancelAnimationFrame(raf); clearTimeout(done); };
+    return () => { cancelAnimationFrame(raf); clearTimeout(done); clearTimeout(hard); };
   }, []);
   if (phase === "done") return null;
   return (

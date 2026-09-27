@@ -362,3 +362,15 @@ body.no-scroll .tab-bar{translate:0 110%;transition:translate .45s var(--e-out)}
 .err-boundary{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:40px}
 .err-boundary h1{font-family:var(--font-display);font-size:2.4rem;color:var(--gold-soft)}
 .err-boundary p{color:var(--muted)}
+
+.form-success{overflow-y:auto;padding-bottom:26px}
+@media (max-width:900px){ .form-success{padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))} }
+
+/* mobile menu: no overlap on short screens */
+@media (max-width:900px){
+  .mm-nav{justify-content:flex-start;padding-top:calc(92px + 3vh);gap:2px;overflow-y:auto;scrollbar-width:none}
+  .mm-nav::-webkit-scrollbar{display:none}
+  .mm-nav a{font-size:clamp(1.45rem,6.2vh,2.35rem);line-height:1.7}
+  .mm-foot{gap:8px}
+  .mm-foot .mm-socials{margin-top:4px}
+}
